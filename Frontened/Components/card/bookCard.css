@@ -1,0 +1,242 @@
+/* ================= HEADER ================= */
+
+.navBar{
+  position: fixed;
+  display:flex;
+  align-items:center;
+  padding:14px 24px;
+  gap:16px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(247, 242, 240, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+
+}
+
+/* Logo Circle */
+.logoCircle{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  overflow:hidden;
+  box-shadow:0 3px 8px rgba(0,0,0,0.15);
+  margin-right:15px;
+}
+
+.logoCircle img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* Title + Tagline */
+.titleBox{
+  display:flex;
+  flex-direction:column;
+}
+
+.title{
+  font-size:34px;
+  margin:0;
+  color:#1f5c6d;
+  font-weight:600;
+}
+
+.tagline{
+  font-size:13px;
+  color:#6c757d;
+  margin-top:2px;
+  letter-spacing:0.5px;
+}
+
+/* Divider */
+hr{
+  border:none;
+  height:1px;
+  background:#e6e6e6;
+  margin:0;
+}
+
+
+/* ================= CARD SECTION ================= */
+
+.booksContainer{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(250px,1fr));
+  gap:30px;
+  padding:30px 24px 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* Book Card (scoped) */
+
+.book-card{
+  width:100% !important;
+  border:none !important;
+  border-radius:18px;
+  overflow:hidden;
+  background: linear-gradient(180deg, #ffffff 0%, #fffdfc 100%);
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.10);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.book-card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 18px 46px rgba(2, 6, 23, 0.14);
+}
+
+.book-card__media{
+  position: relative;
+  overflow: hidden;
+}
+
+.book-card__media::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:80px;
+  background: linear-gradient(to top, rgba(2,6,23,0.25), transparent);
+  pointer-events:none;
+}
+
+.book-card__img{
+  height: 220px;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 260ms ease;
+}
+
+.book-card:hover .book-card__img{
+  transform: scale(1.04);
+}
+
+.book-card__wish{
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.book-card__wish:hover{
+  transform: scale(1.06);
+  background-color: rgba(255,255,255,1) !important;
+}
+
+.book-card__body{
+  padding: 16px;
+  display:flex;
+  flex-direction:column;
+  gap: 12px;
+  min-height: 170px;
+}
+
+.book-card__title{
+  font-size: 18px;
+  font-weight: 650;
+  margin: 0 0 6px 0;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-card__author{
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-card__meta{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.book-card__price{
+  font-weight: 750;
+  color: #0f172a;
+  background: rgba(15,23,42,0.06);
+  border: 1px solid rgba(15,23,42,0.10);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.book-card__cta{
+  border-radius: 14px !important;
+  padding: 10px 14px !important;
+}
+
+
+/* Button */
+
+.btn-primary{
+  width:100%;
+  margin-top:12px;
+  border-radius:8px;
+  font-weight:500;
+}
+
+.red-text-btn {
+  color: red !important;
+}
+
+.NAVBAR{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0;
+  gap:10px;
+    
+}
+
+/* Modal Overlay - Dark background behind the form */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content - The white box with the form */
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Close Button */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+}
+
+.modal-close:hover {
+  color: #000;
+}
+
