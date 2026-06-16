@@ -1,0 +1,23 @@
+# Python / venv
+Backend/.venv/
+**/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.dist-info/
+
+# Local DB / env
+Backend/*.db
+*.env
+.env.local
+
+# Node / build
+Frontened/node_modules/
+Frontened/dist/
+Frontened/.vite/
+dist/
+build/
+
+# Editor / misc
+.codex
