@@ -8,21 +8,9 @@ import { Link, NavLink } from "react-router-dom";
 import { getWishlistIds, subscribeWishlist } from "../lib/wishlist";
 import { isLoggedIn, logout, subscribeAuth } from "../lib/auth";
 
-import Login from '../Page/login';
-import Signup from '../Page/signup';  // Import Signup component
-
 const NavBar = () => {
-  // State to control which form to show
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
   const [wishlistCount, setWishlistCount] = useState(() => getWishlistIds().length);
   const [loggedIn, setLoggedIn] = useState(() => isLoggedIn());
-
-  // Function to close both forms
-  const closeForms = () => {
-    setShowLogin(false);
-    setShowSignup(false);
-  };
 
   React.useEffect(
     () => subscribeWishlist(() => setWishlistCount(getWishlistIds().length)),
@@ -74,27 +62,14 @@ const NavBar = () => {
 
               {!loggedIn ? (
                 <>
-                  {/* LOGIN BUTTON */}
-                  <Nav.Link 
-                    href="#login" 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowLogin(true);
-                      setShowSignup(false);  // Hide signup if open
-                    }}
-                  >
+                  <Nav.Link as={NavLink} to="/login">
                     Login
                   </Nav.Link>
 
-                  {/* SIGNUP BUTTON */}
-                  <Nav.Link 
-                    href="#signup" 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowSignup(true);
-                      setShowLogin(false);  // Hide login if open
-                    }}
-                    style={{ 
+                  <Nav.Link
+                    as={NavLink}
+                    to="/signup"
+                    style={{
                       backgroundColor: '#28a745', 
                       color: 'white',
                       borderRadius: '4px',
@@ -111,7 +86,6 @@ const NavBar = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     logout();
-                    closeForms();
                   }}
                   style={{
                     marginLeft: "10px",
@@ -128,35 +102,6 @@ const NavBar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      {/* Show Login Form as Modal/Popup */}
-      {showLogin && (
-        <div className="modal-overlay" onClick={closeForms}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeForms}>✕</button>
-            <Login onSwitchToSignup={() => {
-              setShowLogin(false);
-              setShowSignup(true);
-            }} onSuccess={closeForms} />
-          </div>
-        </div>
-      )}
-
-      {/* Show Signup Form as Modal/Popup */}
-      {showSignup && (
-        <div className="modal-overlay" onClick={closeForms}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeForms}>✕</button>
-            <Signup onSwitchToLogin={() => {
-              setShowSignup(false);
-              setShowLogin(true);
-            }} onSuccess={() => {
-              setShowSignup(false);
-              setShowLogin(true);
-            }} />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -2,28 +2,27 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
-from Backend.Database import models, schema
-
-try:
-    from Backend import crud
-    from Backend.Database.database import SessionLocal, engine
-    from Backend.Route.router import router
-except ModuleNotFoundError:
-    import crud, Backend.Database.models as models, Backend.Database.schema as schema
-    from Backend.Database.database import SessionLocal, engine
-    from Backend.Route.router import router
+import crud
+from Database import models, schema
+from Database.bootstrap import ensure_books_schema, seed_books_if_empty
+from Database.database import SessionLocal, engine
+from Route.router import router
 
 app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
+ensure_books_schema(engine)
+seed_books_if_empty(engine)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:5174",
+        "http://localhost:5175",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:5174",
+        "http://127.0.0.1:5175",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -42,16 +41,29 @@ def get_db():
 app.include_router(router)
 
 
-@app.post("/books")
-def create(book: schema.BookCreate, db: Session = Depends(get_db)):
-    return crud.create_book(db, book)
+# @app.get("/health")
+# def health():
+#     return {"status": "ok"}
 
 
-@app.get("/books")
-def read_books(db: Session = Depends(get_db)):
+# @app.post("/books", response_model=schema.BookOut)
+# def create(book: schema.BookCreate, db: Session = Depends(get_db)):
+#     return crud.create_book(db, book)
+
+@app.post("/books", response_model=schema.BookOut)
+def create(book:schema.BookCreate,db:Session = Depends(get_db)):
+    return crud.create_book(db,book)
+
+
+
+# @app.get("/books", response_model=list[schema.BookOut])
+# def read_books(db: Session = Depends(get_db)):
+#     return crud.get_books(db)
+
+@app.get("/books",response_model=list[schema.BookOut])
+def read_books(db:Session=Depends(get_db)):
     return crud.get_books(db)
 
-
-@app.get("/books/{id}")
+@app.get("/books/{id}", response_model=schema.BookOut | None)
 def read_book(id: int, db: Session = Depends(get_db)):
     return crud.get_book(db, id)

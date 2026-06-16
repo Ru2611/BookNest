@@ -2,11 +2,16 @@ import React, { useEffect, useMemo, useState } from "react";
 import BookCard from "../Components/card/bookCard";
 import { Books as LocalBooks } from "../Books";
 import { useSearchParams } from "react-router-dom";
-
-const API_URL = "http://localhost:8000/books";
+import { apiGet } from "../lib/api";
 
 const normalizeBook = (raw) => {
   if (!raw) return null;
+  const seller =
+    raw.seller ??
+    raw.owner ??
+    (raw.seller_name || raw.seller_city
+      ? { name: raw.seller_name || "", city: raw.seller_city || "" }
+      : null);
   return {
     id: raw.id ?? raw._id ?? raw.book_id ?? Math.random(),
     title: raw.title ?? "",
@@ -17,7 +22,7 @@ const normalizeBook = (raw) => {
     type: raw.type ?? "",
     description: raw.description ?? "",
     image: raw.image ?? raw.image_url ?? "",
-    seller: raw.seller ?? raw.owner ?? null,
+    seller,
   };
 };
 
@@ -67,9 +72,7 @@ export default function Browse() {
     const load = async () => {
       setLoading(true);
       try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Failed to load");
-        const data = await response.json();
+        const data = await apiGet("/books");
         const normalized = (Array.isArray(data) ? data : [])
           .map(normalizeBook)
           .filter(Boolean);

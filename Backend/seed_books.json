@@ -1,0 +1,58 @@
+[
+  {
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "genre": "fiction",
+    "condition": "Good",
+    "price": 150,
+    "type": "sell",
+    "description": "Read once. Pages are clean.",
+    "image": "https://covers.openlibrary.org/b/id/8231856-L.jpg",
+    "seller": { "name": "Riya Sharma", "city": "Delhi" }
+  },
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "genre": "romantic",
+    "condition": "Very Good",
+    "price": 0,
+    "type": "donate",
+    "description": "Free book. Just want someone else to enjoy it.",
+    "image": "https://covers.openlibrary.org/b/id/8091016-L.jpg",
+    "seller": { "name": "Aman Gupta", "city": "Noida" }
+  },
+  {
+    "title": "Harry Potter and the Sorcerer's Stone",
+    "author": "J.K. Rowling",
+    "genre": "fiction",
+    "condition": "Like New",
+    "price": 250,
+    "type": "sell",
+    "description": "Almost new condition.",
+    "image": "https://covers.openlibrary.org/b/id/7884866-L.jpg",
+    "seller": { "name": "Sneha Verma", "city": "Gurgaon" }
+  },
+  {
+    "title": "Atomic Habits",
+    "author": "James Clear",
+    "genre": "self-help",
+    "condition": "Good",
+    "price": 200,
+    "type": "sell",
+    "description": "Helpful self improvement book.",
+    "image": "https://covers.openlibrary.org/b/id/10521270-L.jpg",
+    "seller": { "name": "Rahul Mehta", "city": "Delhi" }
+  },
+  {
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "romantic",
+    "condition": "Very Good",
+    "price": 120,
+    "type": "sell",
+    "description": "Classic novel in great condition.",
+    "image": "https://covers.openlibrary.org/b/id/7352163-L.jpg",
+    "seller": { "name": "Anjali Kapoor", "city": "Faridabad" }
+  }
+]
+

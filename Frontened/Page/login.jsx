@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { setUserId } from "../lib/auth";
+import { API_BASE_URL } from "../lib/api";
 
 const Login = ({ onSwitchToSignup, onSuccess }) => {  // Receive the prop
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -33,7 +36,7 @@ const Login = ({ onSwitchToSignup, onSuccess }) => {  // Receive the prop
     setSuccess("");
     try {
       // Preferred: JSON body
-      let response = await fetch("http://localhost:8000/login", {
+      let response = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -42,7 +45,7 @@ const Login = ({ onSwitchToSignup, onSuccess }) => {  // Receive the prop
       // Backward-compat (older backend): query params
       if (response.status === 404 || response.status === 405) {
         response = await fetch(
-          `http://localhost:8000/login?email=${encodeURIComponent(
+          `${API_BASE_URL}/login?email=${encodeURIComponent(
             email
           )}&password=${encodeURIComponent(password)}`,
           {
@@ -67,7 +70,7 @@ const Login = ({ onSwitchToSignup, onSuccess }) => {  // Receive the prop
         setError(await readErrorMessage(response));
       }
     } catch (error) {
-      setError("Cannot connect to server. Make sure backend is running on http://localhost:8000.");
+      setError(`Cannot connect to server. Make sure backend is running on ${API_BASE_URL}.`);
       console.error("Login error:", error);
     } finally {
       setLoading(false);
@@ -148,7 +151,8 @@ const Login = ({ onSwitchToSignup, onSuccess }) => {  // Receive the prop
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
         <p>New user? Please register</p>
         <button 
-          onClick={onSwitchToSignup}  // This switches to signup form
+          type="button"
+          onClick={() => (onSwitchToSignup ? onSwitchToSignup() : navigate("/signup"))}
           disabled={loading}
           style={{ 
             padding: '10px 20px', 

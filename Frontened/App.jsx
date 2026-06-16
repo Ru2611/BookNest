@@ -16,8 +16,11 @@ import BookDetail from "./Page/BookDetail";
 import Browse from "./Page/browse";
 import AddBook from "./Page/addBook";
 import Wishlist from "./Page/wishlist";
+import Dashboard from "./Page/Dashboard";
 import AuthPage from "./Page/auth";
 import { isLoggedIn } from "./lib/auth";
+import Login from './Page/login';
+import Signup from "./Page/signup";
 
 function RequireAuth({ children }) {
   const location = useLocation();
@@ -34,6 +37,8 @@ function App() {
         <Header />
         <Routes>
           <Route path="/auth" element={<AuthPage />} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/signup" element={<Signup/>} />
           <Route
             path="/"
             element={
@@ -75,6 +80,14 @@ function App() {
             }
           />
           <Route path="*" element={<p className="p-4">Page not found.</p>} />
+          <Route
+            path="/dashboard"
+            element={
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

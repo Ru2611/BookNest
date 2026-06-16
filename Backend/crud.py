@@ -1,13 +1,11 @@
 from sqlalchemy.orm import Session
 
-from Backend.Database import models
-try:
-    from Backend.Database import schema
-except ModuleNotFoundError:
-    import Backend.Database.models as models, Backend.Database.schema as schema
+from Database import models, schema
+
 
 def create_book(db: Session, book: schema.BookCreate):
-    db_book = models.Book(**book.dict())
+    payload = book.model_dump() if hasattr(book, "model_dump") else book.dict()
+    db_book = models.Book(**payload)
     db.add(db_book)
     db.commit()
     db.refresh(db_book)

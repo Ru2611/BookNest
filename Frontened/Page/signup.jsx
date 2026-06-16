@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../lib/api";
 
 const Signup = ({ onSwitchToLogin, onSuccess }) => {  // Receive the prop
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -35,7 +38,7 @@ const Signup = ({ onSwitchToLogin, onSuccess }) => {  // Receive the prop
   setSuccess("");
 
   try {
-    const response = await fetch('http://localhost:8000/signup', {
+    const response = await fetch(`${API_BASE_URL}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +59,7 @@ const Signup = ({ onSwitchToLogin, onSuccess }) => {  // Receive the prop
       );
     }
   } catch (error) {
-    setError("Cannot connect to server. Make sure backend is running on http://localhost:8000.");
+    setError(`Cannot connect to server. Make sure backend is running on ${API_BASE_URL}.`);
   } finally {
     setLoading(false);
   }
@@ -169,7 +172,8 @@ const Signup = ({ onSwitchToLogin, onSuccess }) => {  // Receive the prop
       <div style={{ marginTop: '20px', textAlign: 'center' }}>
         <p>Already have an account?</p>
         <button 
-          onClick={onSwitchToLogin}  // This switches back to login
+          type="button"
+          onClick={() => (onSwitchToLogin ? onSwitchToLogin() : navigate("/login"))}
           disabled={loading}
           style={{ 
             padding: '10px 20px', 

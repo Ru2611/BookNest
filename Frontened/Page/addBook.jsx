@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { apiPostJson } from "../lib/api";
 
 const AddBook = () => {
   const navigate = useNavigate();
@@ -38,15 +39,7 @@ const AddBook = () => {
         price: form.type === "donate" ? 0 : Number(form.price || 0),
       };
 
-      const response = await fetch("http://localhost:8000/books", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) throw new Error("Upload failed");
+      await apiPostJson("/books", payload);
 
       setStatus({ type: "success", message: "Book uploaded successfully." });
       setForm({

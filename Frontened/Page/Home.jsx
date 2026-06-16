@@ -2,9 +2,38 @@ import React from "react";
 import { Books } from "../Books";
 import BookCard from "../Components/card/bookCard";
 import { Link } from "react-router-dom";
+import { apiGet } from "../lib/api";
+
+// export const Home = () => {
+//   const [featured, setFeatured] = React.useState(() => Books.slice(0, 12));
+
+//   React.useEffect(() => {
+//     let active = true;
+//     apiGet("/books")
+//       .then((data) => {
+//         if (!active) return;
+//         if (Array.isArray(data) && data.length) setFeatured(data.slice(0, 12));
+//       })
+//       .catch(() => {});
+//     return () => {
+//       active = false;
+//     };
+//   }, []);
 
 export const Home = () => {
-  const featured = Books.slice(0, 12);
+  const [featured, setFeatured] = React.useState(() => Books.slice(0, 12));
+  React.useEffect(() => {
+    let active = true;
+    apiGet("/books")
+    .then((data) => {
+      if (!active) return;
+      if (Array.isArray(data) && data.length > 0) setFeatured(data.slice(0, 12));
+    })
+    .catch(()=> {});
+    return () => {active =false;};
+
+  }, []);
+
 
   return (
     <div className="px-4">

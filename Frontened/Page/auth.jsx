@@ -11,6 +11,11 @@ export default function AuthPage() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
+    if (location.pathname === "/signup") setMode("signup");
+    if (location.pathname === "/login") setMode("login");
+  }, [location.pathname]);
+
+  useEffect(() => {
     const m = (searchParams.get("mode") || "").toLowerCase();
     if (m === "signup") setMode("signup");
     if (m === "login") setMode("login");
@@ -61,7 +66,7 @@ export default function AuthPage() {
             <div className="flex gap-2 p-2">
               <button
                 type="button"
-                onClick={() => setMode("login")}
+                onClick={() => navigate("/login", { replace: true })}
                 className={
                   mode === "login"
                     ? "flex-1 rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
@@ -72,7 +77,7 @@ export default function AuthPage() {
               </button>
               <button
                 type="button"
-                onClick={() => setMode("signup")}
+                onClick={() => navigate("/signup", { replace: true })}
                 className={
                   mode === "signup"
                     ? "flex-1 rounded-2xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white"
@@ -86,7 +91,7 @@ export default function AuthPage() {
             <div className="p-3">
               {mode === "login" ? (
                 <Login
-                  onSwitchToSignup={() => setMode("signup")}
+                  onSwitchToSignup={() => navigate("/signup", { replace: true })}
                   onSuccess={() => {
                     const from = location.state?.from || "/";
                     navigate(from, { replace: true });
@@ -94,8 +99,8 @@ export default function AuthPage() {
                 />
               ) : (
                 <Signup
-                  onSwitchToLogin={() => setMode("login")}
-                  onSuccess={() => setMode("login")}
+                  onSwitchToLogin={() => navigate("/login", { replace: true })}
+                  onSuccess={() => navigate("/login", { replace: true })}
                 />
               )}
             </div>

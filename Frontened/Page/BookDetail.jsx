@@ -3,6 +3,7 @@ import React from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { isWishlisted, toggleWishlistId } from "../lib/wishlist";
+import { apiGet } from "../lib/api";
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -21,8 +22,7 @@ const BookDetails = () => {
 
     if (!id) return;
 
-    fetch(`http://localhost:8000/books/${id}`)
-      .then((res) => res.json())
+    apiGet(`/books/${id}`)
       .then((data) => {
         setBook(data);
         setWishlisted(isWishlisted(data?.id ?? id));
