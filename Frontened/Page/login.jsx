@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { setUserId } from "../lib/auth";
 import { API_BASE_URL } from "../lib/api";
 
-const Login = ({ onSwitchToSignup, onSuccess }) => {  // Receive the prop
+const Login = ({ onSwitchToSignup, onSuccess }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,36 +25,27 @@ const Login = ({ onSwitchToSignup, onSuccess }) => {  // Receive the prop
     }
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-       if (!email || !password) {
+    
+    if (!email || !password) {
       setError("Email and password are required");
       return;
     }
+    
     setLoading(true);
     setError("");
     setSuccess("");
+    
     try {
-      // Preferred: JSON body
-      let response = await fetch(`${API_BASE_URL}/login`, {
+      // 1. Send the secure JSON request
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      // Backward-compat (older backend): query params
-      if (response.status === 404 || response.status === 405) {
-        response = await fetch(
-          `${API_BASE_URL}/login?email=${encodeURIComponent(
-            email
-          )}&password=${encodeURIComponent(password)}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-      }
-
+      // 2. Handle the response
       if (response.ok) {
         let data = {};
         try {
@@ -65,18 +56,24 @@ const Login = ({ onSwitchToSignup, onSuccess }) => {  // Receive the prop
 
         setSuccess("Login successful.");
         setUserId(data.user_id || data.userId || data.id || "demo-user");
-        onSuccess?.();
+        if (onSuccess) {
+          onSuccess();
+        } else {
+          navigate("/dashboard", { replace: true });
+        }
       } else {
-        setError(await readErrorMessage(response));
+        // If status is 404, 401, 422, etc., read the exact error from FastAPI
+        const errorMessage = await readErrorMessage(response);
+        setError(errorMessage);
       }
     } catch (error) {
+      // This catches network errors (e.g., server is offline or CORS failed)
       setError(`Cannot connect to server. Make sure backend is running on ${API_BASE_URL}.`);
       console.error("Login error:", error);
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div style={{ maxWidth: '400px', margin: 'auto', padding: '20px' }}>
@@ -135,17 +132,17 @@ const Login = ({ onSwitchToSignup, onSuccess }) => {  // Receive the prop
         </button>
       </form>
 
-      {error ? (
+      {error && (
         <p style={{ marginTop: "12px", color: "#b91c1c", fontSize: "14px" }}>
           {error}
         </p>
-      ) : null}
+      )}
 
-      {success ? (
+      {success && (
         <p style={{ marginTop: "12px", color: "#166534", fontSize: "14px" }}>
           {success}
         </p>
-      ) : null}
+      )}
       
       {/* Signup Link */}
       <div style={{ marginTop: '20px', textAlign: 'center' }}>

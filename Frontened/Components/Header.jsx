@@ -6,7 +6,19 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
   return (
-    <div className="navBar">
+    <div className="navBar" style={{ 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "space-between", 
+      padding: "4px 8px", 
+      background: "#f8fafc",
+      position: "sticky",
+      top: 0,
+      boxSizing: "border-box",
+      zIndex: 1000,
+      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+    }}
+  >
       <div className="brand">
         <div className="logoCircle">
           <img src={Logo} alt="BookNest" />
@@ -22,6 +34,7 @@ const Header = () => {
       <button
         onClick={() => navigate("/login")}
         style={{
+          
           display: "flex", 
           justifyContent: "flex-end",
           padding: "10px 20px",

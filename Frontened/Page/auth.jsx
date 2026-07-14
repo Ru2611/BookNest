@@ -29,7 +29,7 @@ export default function AuthPage() {
   }, [location.state, navigate]);
 
   return (
-    <div className="px-4">
+    <div className="px-4 flex justify-center gap-8 mt-24">
       <div className="mx-auto max-w-4xl pt-10">
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="rounded-3xl border border-slate-200 bg-white/70 p-6 shadow-soft backdrop-blur">
@@ -62,8 +62,8 @@ export default function AuthPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white/70 p-2 shadow-soft backdrop-blur">
-            <div className="flex gap-2 p-2">
+          <div className="rounded-3xl border border-slate-200 bg-white/70 p-2 shadow-soft backdrop-blur ">
+            <div className="flex gap-2 p-2 ">
               <button
                 type="button"
                 onClick={() => navigate("/login", { replace: true })}
@@ -93,7 +93,7 @@ export default function AuthPage() {
                 <Login
                   onSwitchToSignup={() => navigate("/signup", { replace: true })}
                   onSuccess={() => {
-                    const from = location.state?.from || "/";
+                    const from = location.state?.from || "/dashboard";
                     navigate(from, { replace: true });
                   }}
                 />

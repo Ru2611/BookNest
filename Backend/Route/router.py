@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
 from Database.database import SessionLocal
@@ -8,9 +8,24 @@ from auth import hash_password, verify_password
 from Database.models import Book
 from Database.schema import BookOut
 from fastapi import Body
+from fastapi.middleware.cors import CORSMiddleware
 
 router = APIRouter()
 
+
+app = FastAPI()
+
+
+# Add this configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5174", 
+    "http://127.0.0.1:5174",], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.include_router(router)
 
 def get_db():
     db = SessionLocal()
@@ -74,3 +89,5 @@ def rate_book(book_id: int, payload: dict = Body(...), db: Session = Depends(get
 
     avg = float(book.rating_sum) / book.rating_count if book.rating_count else 0.0
     return {"message": "rating recorded", "avg_rating": avg, "rating_count": book.rating_count}
+# This introduces your router to the main app!
+app.include_router(router)
